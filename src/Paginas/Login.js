@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { createUser } from '../services/userAPI';
-import LoadingMsg from './LoadingMsg';
+import LoadingMsg from '../components/LoadingMsg';
 
 class Login extends Component {
   state = {
