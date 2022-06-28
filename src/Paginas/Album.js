@@ -21,12 +21,12 @@ class Album extends React.Component {
   render() {
     const { musics } = this.state;
     return (
-      <div key={ 1 } data-testid="page-album">
+      <div key={ 0 } data-testid="page-album">
         <Header />
-        <h3 data-testid="artist-name">
+        <h3 key={ 1 } data-testid="artist-name">
           Artist Name
         </h3>
-        <h3 data-testid="album-name">
+        <h3 key={ 2 } data-testid="album-name">
           Collection Name
         </h3>
         {musics.map((music) => {
