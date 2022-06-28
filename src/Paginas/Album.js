@@ -4,10 +4,18 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   state = {
     musics: [],
+    favorites: [],
+  }
+
+  isFavorite = (music) => {
+    const { favorites } = this.state;
+    const includes = favorites.some((atual) => atual.trackName === music.trackName);
+    return (includes);
   }
 
   componentDidMount = async () => {
@@ -15,7 +23,11 @@ class Album extends React.Component {
     const { params } = match;
     const { id } = params;
     const musics = await getMusics(id);
-    this.setState({ musics });
+    const favorites = await getFavoriteSongs();
+    this.setState({
+      musics,
+      favorites,
+    });
   }
 
   render() {
@@ -32,7 +44,11 @@ class Album extends React.Component {
         {musics.map((music) => {
           if (music.kind === 'song') {
             return (
-              <MusicCard key={ music.trackName } music={ music } />
+              <MusicCard
+                key={ music.trackName }
+                music={ music }
+                favorite={ this.isFavorite }
+              />
             );
           }
           return (

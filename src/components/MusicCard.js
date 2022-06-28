@@ -7,18 +7,26 @@ import LoadingMsg from './LoadingMsg';
 class MusicCard extends React.Component {
   state = {
     loadingMsg: false,
+    isChecked: false,
+  }
+
+  componentDidMount = () => {
+    const { favorite, music } = this.props;
+    this.setState({ isChecked: favorite(music) });
   }
 
   handleClick = async (music) => {
+    const { isChecked } = this.state;
     this.setState({ loadingMsg: true });
     await addSong(music);
     this.setState({ loadingMsg: false });
+    this.setState({ isChecked: !isChecked });
   }
 
   render() {
     const { music } = this.props;
     const { trackName, previewUrl, trackId } = music;
-    const { loadingMsg } = this.state;
+    const { loadingMsg, isChecked } = this.state;
     return (
       <div>
         { loadingMsg && <LoadingMsg />}
@@ -29,6 +37,7 @@ class MusicCard extends React.Component {
             type="checkbox"
             data-testid={ `checkbox-music-${trackId}` }
             onClick={ () => this.handleClick(music) }
+            checked={ isChecked }
           />
         </label>
         <audio data-testid="audio-component" src={ previewUrl } controls>
@@ -46,6 +55,7 @@ MusicCard.propTypes = {
   music: PropTypes.objectOf.isRequired,
   trackName: PropTypes.string.isRequired,
   previewUrl: PropTypes.string.isRequired,
+  favorite: PropTypes.func.isRequired,
 };
 
 export default MusicCard;
