@@ -45,7 +45,7 @@ class Album extends React.Component {
           if (music.kind === 'song') {
             return (
               <MusicCard
-                key={ music.trackName }
+                key={ music.trackId }
                 music={ music }
                 favorite={ this.isFavorite }
               />

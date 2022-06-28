@@ -36,6 +36,7 @@ class MusicCard extends React.Component {
       <div>
         { loadingMsg && <LoadingMsg />}
         <p>{ trackName }</p>
+        { console.log(trackName) }
         <label htmlFor={ `checkbox-music-${trackId}` }>
           Favorita
           <input
