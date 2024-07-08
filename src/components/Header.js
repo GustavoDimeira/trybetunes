@@ -23,11 +23,11 @@ class Header extends Component {
       <header data-testid="header-component">
         {loading ? <LoadingMsg /> : (
           <div>
-            <h1
+            <h2
               data-testid="header-user-name"
             >
               {name}
-            </h1>
+            </h2>
             <div>
               <Link
                 to="/search"

@@ -32,24 +32,27 @@ class Login extends Component {
   render() {
     const { redirected, loadingMsg, buttonDisabled } = this.state;
     return (
-      <div data-testid="page-login">
-        <form>
-          <textarea
-            placeholder="Insira seu nome aqui"
-            data-testid="login-name-input"
-            onChange={ this.handleChange }
-          />
-          <button
-            data-testid="login-submit-button"
-            type="button"
-            disabled={ buttonDisabled }
-            onClick={ this.handleClick }
-          >
-            Entrar
-          </button>
-        </form>
+      <div>
+        { loadingMsg ? <LoadingMsg />
+          : <div data-testid="page-login">
+              <form>
+              <textarea
+                placeholder="Insira seu nome aqui"
+                data-testid="login-name-input"
+                onChange={ this.handleChange }
+              />
+              <button
+                data-testid="login-submit-button"
+                type="button"
+                disabled={ buttonDisabled }
+                onClick={ this.handleClick }
+              >
+                Entrar
+              </button>
+            </form>
+        </div>
+        }
         { redirected && <Redirect to="/search" /> }
-        { loadingMsg && <LoadingMsg /> }
       </div>
     );
   }

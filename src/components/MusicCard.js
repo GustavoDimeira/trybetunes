@@ -34,17 +34,21 @@ class MusicCard extends React.Component {
     const { loadingMsg, isChecked } = this.state;
     return (
       <div>
-        { loadingMsg && <LoadingMsg />}
         <p>{ trackName }</p>
         { console.log(trackName) }
         <label htmlFor={ `checkbox-music-${trackId}` }>
-          Favorita
-          <input
-            type="checkbox"
-            data-testid={ `checkbox-music-${trackId}` }
-            onClick={ () => this.handleClick(music) }
-            checked={ isChecked }
-          />
+          { loadingMsg ? <LoadingMsg /> : 
+          <div>
+            Favorita
+              <input
+                type="checkbox"
+                data-testid={ `checkbox-music-${trackId}` }
+                onClick={ () => this.handleClick(music) }
+                checked={ isChecked }
+            />
+          </div>
+          }
+
         </label>
         <audio data-testid="audio-component" src={ previewUrl } controls>
           <track kind="captions" />

@@ -13,6 +13,7 @@ class Search extends React.Component {
     isLoading: false,
     finded: undefined,
     musics: [],
+    searchd: false,
   }
 
   handleChange = (event) => {
@@ -26,19 +27,21 @@ class Search extends React.Component {
   }
 
   handleClick = async () => {
+    this.setState({ isDisabled: true });
     const { name } = this.state;
     this.setState({ isLoading: true });
     const resultado = await searchAlbumsAPI(name);
-    this.setState({ isLoading: false, artistName: name, name: '', musics: resultado });
+    this.setState({ isLoading: false, artistName: name, name: '', musics: resultado, searchd: true });
     if (resultado.length > 0) {
       this.setState({ finded: true });
     } else {
       this.setState({ finded: false });
     }
+    this.setState({ isDisabled: false });
   }
 
   render() {
-    const { isDisabled, name, isLoading, artistName, finded, musics } = this.state;
+    const { isDisabled, name, isLoading, artistName, finded, musics, searchd } = this.state;
     return (
       <div data-testid="page-search">
         <Header />
@@ -59,33 +62,35 @@ class Search extends React.Component {
           </button>
         </form>
         { isLoading && <LoadingMsg /> }
-        <h2>
-          {`Resultado de álbuns de: ${artistName}`}
-        </h2>
-        <div>
-          {finded
-            ? musics.map((music) => (
-              <Link
-                key={ music.collectionId }
-                to={ `/album/${music.collectionId}` }
-                data-testid={ `link-to-album-${music.collectionId}` }
-              >
-                <p>
-                  Coleção:
-                  { music.collectionName }
-                </p>
-                <p>
-                  Artist:
-                  { music.artistName }
-                </p>
-                <img src={ music.artworkUrl100 } alt="NotFound" />
-                <p>
-                  Price:
-                  { music.collectionPrice }
-                </p>
-              </Link>
-            )) : <p>Nenhum álbum foi encontrado</p>}
-        </div>
+        { searchd && <div> 
+          <h3>
+           {`Resultado de álbuns de: ${artistName}`}
+          </h3>
+          <div>
+            {finded
+              ? musics.map((music) => (
+                <Link
+                  key={ music.collectionId }
+                  to={ `/album/${music.collectionId}` }
+                  data-testid={ `link-to-album-${music.collectionId}` }
+                >
+                  <p>
+                    Coleção:
+                    { music.collectionName }
+                  </p>
+                  <p>
+                    Artist:
+                    { music.artistName }
+                  </p>
+                  <img src={ music.artworkUrl100 } alt="NotFound" />
+                  <p>
+                    Price:
+                    { music.collectionPrice }
+                  </p>
+                </Link>
+              )) : <p>Nenhum álbum foi encontrado</p>}
+          </div>
+        </div> }
       </div>
     );
   }
